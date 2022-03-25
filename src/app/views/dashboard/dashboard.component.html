@@ -43,7 +43,12 @@
             <div class="col-sm-3">
               <div class="form-group">
                <label for="gender">Sexo: </label>
-                 <input id="gender" type="text" class="form-control"  formControlName="gender">
+                <select id="gender"  class="form-control" formControlName="gender">
+                  <option value="" >Seleccionar</option>
+                  <option value="Masculino" >Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                </select>
+              
               </div>
             </div>
         </div>
