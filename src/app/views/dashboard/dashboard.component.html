@@ -1,5 +1,65 @@
 <div class="animated fadeIn">
   <div class="row">
+     <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+           <form [formGroup]="profileForm">
+            <div class="row">
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="name">Nombre: </label>
+                <input id="name" class="form-control" type="text" formControlName="name">
+              </div>
+            </div>
+
+             <div class="col-sm-3">
+              <div class="form-group">
+                <label for="lastName">Apellido paterno: </label>
+                <input id="lastName" type="text" class="form-control"  formControlName="lastName">
+              </div>
+            </div>
+             <div class="col-sm-3">
+              <div class="form-group">
+                <label for="motherLastName">Apellido materno: </label>
+               <input id="motherLastName" type="text" class="form-control"  formControlName="motherLastName">
+              </div>
+            </div>
+             
+             
+          </div>
+        <div class="row">
+          <div class="col-sm-3">
+              <div class="form-group">
+               <label for="age">Edad: </label>
+                 <input id="age" type="number" class="form-control"  formControlName="age">
+              </div>
+            </div>
+           <div class="col-sm-3">
+              <div class="form-group">
+                 <label for="qualification">Calificación: </label>
+               <input id="qualification" type="number" class="form-control"  formControlName="qualification">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+               <label for="gender">Sexo: </label>
+                 <input id="gender" type="text" class="form-control"  formControlName="gender">
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+              <div class="form-group">
+               <button class="btn btn-info" (click)="updateArray()">Agregar alumno</button>
+              </div>
+            </div>
+        </div>  
+      </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     
     <div class="col-lg-12">
       <div class="card">
@@ -31,11 +91,9 @@
                 </td>
                 <td>{{alumno.gender}}</td>
                 <td *ngIf="alumno.qualification > 5; else blockNoAprobado"><span [ngClass]="alumno.qualification > 5? 'badge badge-success':''">{{alumno.qualification}}  (Aprobado)</span></td>
-                <ng-template #blockNoAprobado><span [ngClass]="alumno.qualification == 5? 'badge badge-danger':''">{{alumno.qualification}}  (No aprobado)</span></ng-template>
+                <ng-template #blockNoAprobado><span [ngClass]="alumno.qualification <= 5? 'badge badge-danger':''">{{alumno.qualification}}  (No aprobado)</span></ng-template>
                 <td><button (click)="eliminaAlumno(alumno.qualification,alumno.name)" class="btn btn-danger">Eliminar</button></td>
               </tr>
-             
-              
             </tbody>
           </table>
           <ul class="pagination d-none">
@@ -51,6 +109,7 @@
         </div>
       </div>
     </div>
+   
     
     <!--/.col-->
   </div>

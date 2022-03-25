@@ -11,6 +11,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { registerLocaleData,CommonModule } from '@angular/common';
 /*libreria para dar formato de hora en diferentes idiomas*/
 import localePy from '@angular/common/locales/es-PY';
+import { ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localePy, 'es');
 
@@ -23,6 +24,7 @@ registerLocaleData(localePy, 'es');
     ChartsModule,
     BsDropdownModule,
     ButtonsModule.forRoot(),
+    ReactiveFormsModule,
   ],
    providers: [ { provide: LOCALE_ID, useValue: 'es-Ar' } ],
   declarations: [ DashboardComponent ]
