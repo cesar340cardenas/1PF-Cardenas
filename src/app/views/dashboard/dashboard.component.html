@@ -1,0 +1,59 @@
+<div class="animated fadeIn">
+  <div class="row">
+    
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Listado de alumnos hoy es: {{fecha | date: 'EEEE, MMMM d, y' }}
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead> 
+              <tr>
+                <th>Fotografía</th>
+                <th>Nombre</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Edad</th>
+                <th>Sexo</th>
+                <th>Calificación</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody > 
+              <tr *ngFor="let alumno of alumnos"  [style.background-color]="alumno.gender == 'Femenino' ? '#FFEBCD':'#CEE7FF'">
+                <td><img [src]="alumno.url" width="130" height="110"></td>
+                <td>{{alumno.name}}</td>
+                <td>{{alumno.lastName}}</td>
+                <td>{{alumno.motherLastName}}</td>
+                <td>
+                  <span>{{alumno.age}}</span>
+                </td>
+                <td>{{alumno.gender}}</td>
+                <td *ngIf="alumno.qualification > 5; else blockNoAprobado"><span [ngClass]="alumno.qualification > 5? 'badge badge-success':''">{{alumno.qualification}}  (Aprobado)</span></td>
+                <ng-template #blockNoAprobado><span [ngClass]="alumno.qualification == 5? 'badge badge-danger':''">{{alumno.qualification}}  (No aprobado)</span></ng-template>
+                <td><button (click)="eliminaAlumno(alumno.qualification,alumno.name)" class="btn btn-danger">Eliminar</button></td>
+              </tr>
+             
+              
+            </tbody>
+          </table>
+          <ul class="pagination d-none">
+            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item active">
+              <a class="page-link" href="#">1</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">4</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!--/.col-->
+  </div>
+  
+  <!--/.row-->
+</div>
