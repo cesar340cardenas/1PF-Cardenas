@@ -1,65 +1,12 @@
+ <!--TABLA Y CARGA DE ALUMNOS-->
 <div class="animated fadeIn">
   <div class="row">
      <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-           <form [formGroup]="profileForm">
-            <div class="row">
-            <div class="col-sm-3">
-              <div class="form-group">
-                <label for="name">Nombre: </label>
-                <input id="name" class="form-control" type="text" formControlName="name">
-              </div>
-            </div>
-
-             <div class="col-sm-3">
-              <div class="form-group">
-                <label for="lastName">Apellido paterno: </label>
-                <input id="lastName" type="text" class="form-control"  formControlName="lastName">
-              </div>
-            </div>
-             <div class="col-sm-3">
-              <div class="form-group">
-                <label for="motherLastName">Apellido materno: </label>
-               <input id="motherLastName" type="text" class="form-control"  formControlName="motherLastName">
-              </div>
-            </div>
-             
-             
-          </div>
-        <div class="row">
-          <div class="col-sm-3">
-              <div class="form-group">
-               <label for="age">Edad: </label>
-                 <input id="age" type="number" class="form-control"  formControlName="age">
-              </div>
-            </div>
-           <div class="col-sm-3">
-              <div class="form-group">
-                 <label for="qualification">Calificación: </label>
-               <input id="qualification" type="number" class="form-control"  formControlName="qualification">
-              </div>
-            </div>
-            <div class="col-sm-3">
-              <div class="form-group">
-               <label for="gender">Sexo: </label>
-                <select id="gender"  class="form-control" formControlName="gender">
-                  <option value="" >Seleccionar</option>
-                  <option value="Masculino" >Masculino</option>
-                  <option value="Femenino">Femenino</option>
-                </select>
-              
-              </div>
-            </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-3">
-              <div class="form-group">
-               <button class="btn btn-info" (click)="updateArray()">Agregar alumno</button>
-              </div>
-            </div>
-        </div>  
-      </form>
+            <button type="button" class="btn btn-primary mr-1" data-toggle="modal" (click)="formulario.show()">
+            Agregar alumno
+          </button>
         </div>
       </div>
     </div>
@@ -121,3 +68,177 @@
   
   <!--/.row-->
 </div>
+ <!--TERMINA TABLA Y CARGA DE ALUMNOS-->
+
+ <!--MODALES-->
+
+<div bsModal #formulario="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Agregar alumno</h4>
+        <button type="button" class="close" (click)="formulario.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="profileForm"> 
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="archivo"> </label>
+                <input #file id="archivo" type="file" accept='image/*' (change)="preview(file.files)" />
+                
+              </div>
+            </div> 
+            <div class="col-md-6">
+              <div class="form-group">
+                
+                <img [src]="imgURL" height="100" id="foto" *ngIf="imgURL">
+                
+              </div>
+            </div>
+          </div>
+            <div class="row">
+              
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="name">Nombre: </label>
+                <input id="name" class="form-control" type="text" formControlName="name" #txtName>
+                <span [style.color]="true? 'red':''" *ngIf="profileForm.get('name')?.errors?.['required']">* obligatorio</span>
+                <span [style.color]="true? 'red':''" *ngIf="profileForm.get('name')?.errors?.['minlength']">El campo nombre debe tener al menos 5 caracteres</span>
+              </div>
+            </div> 
+
+             <div class="col-sm-3">
+              <div class="form-group">
+                <label for="lastName">Apellido paterno: </label>
+                <input id="lastName" type="text" class="form-control"  formControlName="lastName" #txtPaterno>
+                 <span [style.color]="true? 'red':''" *ngIf="profileForm.get('lastName')?.errors?.['required']">* obligatorio</span>
+              </div>
+            </div>
+             <div class="col-sm-3">
+              <div class="form-group">
+                <label for="motherLastName">Apellido materno: </label>
+               <input id="motherLastName" type="text" class="form-control"  formControlName="motherLastName" #txtMaterno>
+               <span [style.color]="true? 'red':''" *ngIf="profileForm.get('motherLastName')?.errors?.['required']">* obligatorio</span>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+                <label for="motherLastName">Correo electrónico: </label>
+               <input id="email" type="email" class="form-control"  formControlName="email" #txtEmail>
+               <span [style.color]="true? 'red':''" *ngIf="profileForm.get('email')?.errors?.['required']">* obligatorio</span>
+               <span [style.color]="true? 'red':''" *ngIf="profileForm.get('email')?.errors?.['email']">Escribe un correo válido</span>
+              </div>
+            </div>
+             
+             
+          </div>
+        <div class="row">
+          <div class="col-sm-3">
+              <div class="form-group">
+               <label for="age">Edad: </label>
+                 <input id="age" type="number" class="form-control"  formControlName="age" #txtEdad>
+                 <span [style.color]="true? 'red':''" *ngIf="profileForm.get('age')?.errors?.['required']">* obligatorio</span>
+                 <span [style.color]="true? 'red':''" *ngIf="profileForm.get('age')?.errors?.['maxLength']">Máximo dos digitos</span>
+                 <span [style.color]="true? 'red':''" *ngIf="profileForm.get('age')?.errors?.['max']">Solo hasta la edad de 12 años</span>
+              </div>
+            </div>
+           <div class="col-sm-3">
+              <div class="form-group">
+                 <label for="qualification">Calificación: </label>
+               <input id="qualification" type="number" class="form-control"  formControlName="qualification" #txtCal>
+               <span [style.color]="true? 'red':''" *ngIf="profileForm.get('qualification')?.errors?.['required']">* obligatorio</span>
+               <span [style.color]="true? 'red':''" *ngIf="profileForm.get('qualification')?.errors?.['max']">Máxima calificación es 10</span>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="form-group">
+               <label for="gender">Sexo: </label>
+                <select id="gender"  class="form-control" formControlName="gender" #txtGen>
+                  <option value="" >Seleccionar</option>
+                  <option value="Masculino" >Masculino</option>
+                  <option value="Femenino">Femenino</option>
+                </select>
+                <span [style.color]="true? 'red':''" *ngIf="profileForm.get('gender')?.errors?.['required']">* obligatorio</span>
+              
+              </div>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3">
+              <div class="form-group">
+               
+              </div>
+            </div>
+        </div>  
+      </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="formulario.hide()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="updateArray()">Guardar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #mensajeElimnado="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alerta</h4>
+        <button type="button" class="close" (click)="mensajeElimnado.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Alumno eliminado</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="mensajeElimnado.hide()">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div bsModal #mensajeAlerta="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alerta</h4>
+        <button type="button" class="close" (click)="mensajeAlerta.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>No puedes eliminar este alumno porque esta aprobado</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="mensajeAlerta.hide()">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div bsModal #mensajeObligatorio="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Alerta</h4>
+        <button type="button" class="close" (click)="mensajeObligatorio.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Debes llenar los campos obligatorios</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="mensajeObligatorio.hide()">Cerrar</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <!--TERMINA MODALES-->

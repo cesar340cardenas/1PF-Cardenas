@@ -13,6 +13,9 @@ import { registerLocaleData,CommonModule } from '@angular/common';
 import localePy from '@angular/common/locales/es-PY';
 import { ReactiveFormsModule } from '@angular/forms';
 
+// Modal Component
+import { ModalModule } from 'ngx-bootstrap/modal';
+
 registerLocaleData(localePy, 'es');
 
 @NgModule({
@@ -25,8 +28,11 @@ registerLocaleData(localePy, 'es');
     BsDropdownModule,
     ButtonsModule.forRoot(),
     ReactiveFormsModule,
+    ModalModule.forRoot()
   ],
    providers: [ { provide: LOCALE_ID, useValue: 'es-Ar' } ],
-  declarations: [ DashboardComponent ]
+  declarations: [ 
+  DashboardComponent,
+  ]
 })
 export class DashboardModule { }

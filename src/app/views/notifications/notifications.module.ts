@@ -17,7 +17,7 @@ import { NotificationsRoutingModule } from './notifications-routing.module';
 
 @NgModule({
   imports: [
-    CommonModule,
+    CommonModule, 
     NotificationsRoutingModule,
     AlertModule.forRoot(),
     ModalModule.forRoot()
