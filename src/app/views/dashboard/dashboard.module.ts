@@ -15,6 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 // Modal Component
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { CabeceraTablaDirective } from '../../directivas/cabecera-tabla.directive';
+import { AlumnoPipe } from '../../pipealumno/alumno.pipe';
+import {MatTableModule} from '@angular/material/table';
 
 registerLocaleData(localePy, 'es');
 
@@ -28,11 +31,16 @@ registerLocaleData(localePy, 'es');
     BsDropdownModule,
     ButtonsModule.forRoot(),
     ReactiveFormsModule,
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    MatTableModule,
   ],
    providers: [ { provide: LOCALE_ID, useValue: 'es-Ar' } ],
   declarations: [ 
   DashboardComponent,
-  ]
+  CabeceraTablaDirective,
+  AlumnoPipe,
+
+  ],
+  bootstrap: [DashboardComponent],
 })
 export class DashboardModule { }

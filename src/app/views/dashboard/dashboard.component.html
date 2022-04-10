@@ -4,7 +4,7 @@
      <div class="col-lg-12">
       <div class="card">
         <div class="card-body">
-            <button type="button" class="btn btn-warning mr-1" data-toggle="modal" (click)="formulario.show()">
+            <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="editaAlumno(0)">
             Agregar alumno
           </button>
         </div>
@@ -19,10 +19,71 @@
           <i class="fa fa-align-justify"></i> Listado de alumnos hoy es: {{fecha | date: 'EEEE, MMMM d, y' }}
         </div>
         <div class="card-body">
-          <table class="table">
-            <thead> 
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+ 
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="url">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Fotografía </th>
+    <td mat-cell *matCellDef="let element"><img [src]="element.url" width="130" height="110">  </td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Nombre </th>
+    <td mat-cell *matCellDef="let element"> {{element.name | alumno:element.lastName}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="motherLastName">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Apellido materno </th>
+    <td mat-cell *matCellDef="let element"> {{element.motherLastName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="age">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Edad </th>
+    <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+  </ng-container>
+  <ng-container matColumnDef="gender">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Genero </th>
+    <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+  </ng-container>
+  <ng-container matColumnDef="qualification">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Calificación </th>
+    <td mat-cell  *matCellDef="let element" > <span [ngClass]="element.qualification > 5? 'badge badge-success':'badge badge-danger'">{{element.qualification}} {{((element.qualification>5)?'(Aprobado)':'(No aprobado)')}} </span> </td>
+  </ng-container>
+ 
+  
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Correo electrónico </th>
+    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+  </ng-container>
+  <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Acciones </th>
+    <td mat-cell *matCellDef="let element"> 
+      <button type="button" class="btn btn-warning mr-1" data-toggle="modal" (click)="editaAlumno(element.id)">Editar</button> 
+
+      <button (click)="eliminaAlumno(element.qualification,element.name)" class="btn btn-danger">Eliminar</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+      <!--    <table class="table" >
+           
+
+
+            <thead [appCabeceraTabla]="estilos"> 
               <tr>
-                <th>Fotografía</th>
+                <th >Fotografía</th>
                 <th>Nombre</th>
                 <th>Apellido Paterno</th>
                 <th>Apellido Materno</th>
@@ -35,7 +96,7 @@
             <tbody > 
               <tr *ngFor="let alumno of alumnos"  [style.background-color]="alumno.gender == 'Femenino' ? '#FFEBCD':'#CEE7FF'">
                 <td><img [src]="alumno.url" width="130" height="110"></td>
-                <td>{{alumno.name}}</td>
+                <td>{{alumno.name | alumno:alumno.lastName}}</td>
                 <td>{{alumno.lastName}}</td>
                 <td>{{alumno.motherLastName}}</td>
                 <td>
@@ -44,30 +105,20 @@
                 <td>{{alumno.gender}}</td>
                 <td *ngIf="alumno.qualification > 5; else blockNoAprobado"><span [ngClass]="alumno.qualification > 5? 'badge badge-success':''">{{alumno.qualification}}  (Aprobado)</span></td>
                 <ng-template #blockNoAprobado><span [ngClass]="alumno.qualification <= 5? 'badge badge-danger':''">{{alumno.qualification}}  (No aprobado)</span></ng-template>
-                <td><button (click)="eliminaAlumno(alumno.qualification,alumno.name)" class="btn btn-danger">Eliminar</button></td>
+                <td>
+                  <button type="button" class="btn btn-warning mr-1" data-toggle="modal" (click)="editaAlumno(alumno.id)">Editar</button> 
+
+                  <button (click)="eliminaAlumno(alumno.qualification,alumno.name)" class="btn btn-danger">Eliminar</button>
+                </td>
               </tr>
             </tbody>
           </table>
-          <ul class="pagination d-none">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
+        
         </div>
       </div>
     </div>
-   
-    
-    <!--/.col-->
   </div>
-  
-  <!--/.row-->
-</div>
+</div>-->
  <!--TERMINA TABLA Y CARGA DE ALUMNOS-->
 
  <!--MODALES-->
@@ -173,11 +224,12 @@
               </div>
             </div>
         </div>  
+        <input  type="hidden" class="form-control" value="0" #id_edit>
       </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="formulario.hide()">Close</button>
-        <button type="button" class="btn btn-primary" (click)="updateArray()">Guardar</button>
+        <button type="button" class="btn btn-primary" (click)="addAlumno()">Guardar</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
