@@ -18,6 +18,9 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CabeceraTablaDirective } from '../../directivas/cabecera-tabla.directive';
 import { AlumnoPipe } from '../../pipealumno/alumno.pipe';
 import {MatTableModule} from '@angular/material/table';
+import { AlumnosService } from '../../services/alumnos.service';
+import { CONFIG,ApiConfig } from 'src/app.config';
+import { HttpClientModule } from '@angular/common/http';
 
 registerLocaleData(localePy, 'es');
 
@@ -33,12 +36,18 @@ registerLocaleData(localePy, 'es');
     ReactiveFormsModule,
     ModalModule.forRoot(),
     MatTableModule,
+    HttpClientModule
   ],
-   providers: [ { provide: LOCALE_ID, useValue: 'es-Ar' } ],
+  providers: [ 
+  { provide: LOCALE_ID, useValue: 'es-Ar' }, 
+  AlumnosService,
+  {provide:CONFIG,useValue:ApiConfig}
+  ],
   declarations: [ 
   DashboardComponent,
   CabeceraTablaDirective,
   AlumnoPipe,
+ 
 
   ],
   bootstrap: [DashboardComponent],
