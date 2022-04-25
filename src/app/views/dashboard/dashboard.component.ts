@@ -7,8 +7,8 @@ import { Alumno } from '../../models/Alumno';
 import { AlumnosService } from '../../services/alumnos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
-
  
+   
 @Component({
   templateUrl: 'dashboard.component.html',
   selector: 'table-basic-example',

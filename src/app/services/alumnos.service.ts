@@ -170,7 +170,7 @@ id:number=5;
 
   filtrarAlumno(nombre:string):Observable<Alumno[]>{
    return this.alumnoFiltrado$.pipe(
-     map(datos=>datos.filter(alumno=>alumno.name==nombre))
+     map(datos=>datos.filter(alumno=>alumno.name.toLowerCase()==nombre.toLowerCase()))
     );
   }
 }

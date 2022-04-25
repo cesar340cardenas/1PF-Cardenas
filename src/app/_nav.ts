@@ -10,16 +10,23 @@ export const navItems: INavData[] = [
       text: 'NEW'
     }*/
   },
-  /*
+
   {
     title: true,
     name: 'Theme'
   },
   {
-    name: 'Colors',
-    url: '/theme/colors',
-    icon: 'icon-drop'
+    name: 'Cursos',
+    url: '/curso/',
+    icon: 'cil-notes'
+  }, 
+  {
+    name: 'Clases',
+    url: '/clase',
+    icon: 'icon-calculator',
+   
   },
+  /*
   {
     name: 'Typography',
     url: '/theme/typography',
@@ -181,15 +188,7 @@ export const navItems: INavData[] = [
       }
     ]
   },
-  {
-    name: 'Widgets',
-    url: '/widgets',
-    icon: 'icon-calculator',
-    badge: {
-      variant: 'info',
-      text: 'NEW'
-    }
-  },
+  
   {
     divider: true
   },

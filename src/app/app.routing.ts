@@ -75,12 +75,12 @@ export const routes: Routes = [
         loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
       },
       {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
+        path: 'curso',
+        loadChildren: () => import('./views/curso/theme.module').then(m => m.ThemeModule)
       },
       {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
+        path: 'clase',
+        loadChildren: () => import('./views/clase/widgets.module').then(m => m.WidgetsModule)
       }
     ]
   },

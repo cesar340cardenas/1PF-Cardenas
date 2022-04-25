@@ -13,7 +13,7 @@ import { registerLocaleData,CommonModule } from '@angular/common';
 import localePy from '@angular/common/locales/es-PY';
 import { ReactiveFormsModule } from '@angular/forms';
 
-// Modal Component
+// Modal Component 
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { CabeceraTablaDirective } from '../../directivas/cabecera-tabla.directive';
 import { AlumnoPipe } from '../../pipealumno/alumno.pipe';
@@ -21,7 +21,7 @@ import {MatTableModule} from '@angular/material/table';
 import { AlumnosService } from '../../services/alumnos.service';
 import { CONFIG,ApiConfig } from 'src/app.config';
 import { HttpClientModule } from '@angular/common/http';
-
+ 
 registerLocaleData(localePy, 'es');
 
 @NgModule({

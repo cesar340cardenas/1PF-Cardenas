@@ -11,24 +11,15 @@ const routes: Routes = [
       title: 'Theme'
     },
     children: [
+      
       {
         path: '',
-        redirectTo: 'colors'
-      },
-      {
-        path: 'colors',
         component: ColorsComponent,
         data: {
           title: 'Colors'
         }
       },
-      {
-        path: 'typography',
-        component: TypographyComponent,
-        data: {
-          title: 'Typography'
-        }
-      }
+     
     ]
   }
 ];
