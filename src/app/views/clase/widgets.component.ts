@@ -102,7 +102,7 @@ export class WidgetsComponent implements OnInit, OnDestroy{
       console.log(claseEdit)
        form.reset({
         name:claseEdit.name,
-        type:claseEdit.curso_id,
+        curso_id:claseEdit.curso_id,
       });
        this.imgURL=claseEdit.url;
        this.id_edit.nativeElement.value=claseEdit.id;

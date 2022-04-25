@@ -49,7 +49,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
      name:  new FormControl('',[Validators.required,Validators.minLength(5)]),
      type:  new FormControl('',[Validators.required]),
    
-  });
+  }); 
 
   /*titulos de las columnas de la tabla*/
   displayedColumns: string[] = 
@@ -108,7 +108,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
        form.reset({
         name:cursoEdit.name,
         type:cursoEdit.type,
-      });
+      }); 
        this.imgURL=cursoEdit.url;
        this.id_edit.nativeElement.value=cursoEdit.id;
        
