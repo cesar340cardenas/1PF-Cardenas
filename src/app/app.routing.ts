@@ -7,13 +7,26 @@ import { DefaultLayoutComponent } from './containers';
 import { P404Component } from './views/error/404.component';
 import { P500Component } from './views/error/500.component';
 import { LoginComponent } from './views/login/login.component';
+import { DashboardComponent } from './views/dashboard/dashboard.component';
 import { RegisterComponent } from './views/register/register.component';
 
+import { AuthGuard } from './autentication/auth.guard';
+
 export const routes: Routes = [
-  { 
+{
     path: '',
+    component: LoginComponent,
+    data: {
+      title: 'Login Page'
+    }
+  },
+  { 
+    path: 'dashboard',
+    //component: LoginComponent,
+   // canActivate:[AuthGuard]
     redirectTo: 'dashboard',
     pathMatch: 'full',
+    
   },
   {
     path: '404',
@@ -29,13 +42,7 @@ export const routes: Routes = [
       title: 'Page 500'
     }
   },
-  {
-    path: 'login',
-    component: LoginComponent,
-    data: {
-      title: 'Login Page'
-    }
-  },
+  
   {
     path: 'register',
     component: RegisterComponent,
@@ -46,6 +53,7 @@ export const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
+
     data: {
       title: 'Home'
     },
@@ -64,6 +72,7 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard',
+        canActivate:[AuthGuard],  
         loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
@@ -76,10 +85,12 @@ export const routes: Routes = [
       },
       {
         path: 'curso',
+        canActivate:[AuthGuard], 
         loadChildren: () => import('./views/curso/theme.module').then(m => m.ThemeModule)
       },
       {
         path: 'clase',
+        canActivate:[AuthGuard], 
         loadChildren: () => import('./views/clase/widgets.module').then(m => m.WidgetsModule)
       }
     ]
