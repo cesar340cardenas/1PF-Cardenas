@@ -1,16 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable,Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Alumno } from '../models/Alumno';
 import { Observable, Subject, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { API,CONFIG } from 'src/app.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnosService {
   private http: HttpClient;
+  private API_URl:string;
+  private module="Alumnos";
 
-alumnos:Alumno[]=[
+/*alumnos:Alumno[]=[
 {
     "id":1,
     "name":"Lorena",
@@ -66,109 +69,47 @@ alumnos:Alumno[]=[
     "url":"assets/img/avatars/mujer1.jpg",
     "email":"peace@hotmail.com"
   }
-];
+];*/
 
 private observableAlumno: Observable<Alumno[]>;
 private subjectAlumno: Subject<Alumno[]>;
 private alumnoFiltrado$: Observable<Alumno[]>;
 
-id:number=5;
-  constructor(http: HttpClient) { 
-    this.http=http
-  this.observableAlumno=new Observable((suscripcion)=>{
-    if(this.alumnos.length>0){
-      suscripcion.next(this.alumnos)
-      suscripcion.complete()
-    }else{
-      suscripcion.error('No hay datos')
-    }
-    
-  })
-  this.subjectAlumno= new Subject();
-  this.alumnoFiltrado$=of(this.alumnos)
+//id:number=5;
+  constructor(
+    http: HttpClient,
+    @Inject(CONFIG)configuracion:API
+    ) { 
+    this.http=http;
+    this.API_URl= configuracion.url;
   }
 
-  /*obtenerAlumnos(){
-    let p=new Promise((resolve,reject)=>{
-      const error=false;
-      if(!error){
-        resolve(this.alumnos);
-      }else{
-        reject('Hubo  un error')
-      }
-    });
-    return p;
-  }*/
+
 
    obtenerAlumnosObservable(): Observable<any>{
-    //return this.http.get("https://jsonplaceholder.typicode.com/todos")
-    return this.observableAlumno;
+    return this.http.get<Alumno[]>(this.API_URl+this.module);
    }
-
+ 
   agregarAlumno(alumno:Alumno,id:number){
 
     if(id>0){
-        let alumnoEncontrado = this.alumnos.find(i => i.id == id);
-        alumnoEncontrado.name=alumno.name;
-        alumnoEncontrado.lastName=alumno.lastName;
-        alumnoEncontrado.motherLastName=alumno.motherLastName; 
-        alumnoEncontrado.age=alumno.age;
-        alumnoEncontrado.gender=alumno.gender;
-        alumnoEncontrado.qualification=alumno.qualification;
-        alumnoEncontrado.url=alumno.url;
-        alumnoEncontrado.email=alumno.email;
-    }else{
-       alumno.id=this.id+1; 
-       this.alumnos.unshift(alumno)   
+        return this.http.put(this.API_URl+this.module+"/"+id,alumno).toPromise();
+    }else{  
+       return this.http.post(this.API_URl+this.module,alumno).toPromise();
     }
-
-   //this.subjectAlumno.next(this.alumnos)
   }
 
   eliminarAlumno(id:number){
-   this.alumnos.forEach((element,index)=>{
-     if(element.id==id){
-       this.id--;
-       this.alumnos.splice(index,1);
-     }
-    });
-
-  // this.subjectAlumno.next(this.alumnos)
+   return this.http.delete(this.API_URl+this.module+"/"+id).toPromise()
   }
 
   editarAlumno(id:number){
-   /* let alumno:any;
-    if(id>0){
-     this.alumnos.forEach((element,index)=>{
-     if(element.id==id){
-      //return element;
-      alumno=element
-     }
-    });
-    }
-    return alumno*/
-
-    let p=new Promise((resolve,reject)=>{
-      const error=false;
-      if(!error){
-        let alumno:any;
-        if(id>0){
-         this.alumnos.forEach((element,index)=>{
-         if(element.id==id){
-          //return element;
-          alumno=element
-         }
-        });
-        }
-        resolve(alumno);
-      }else{
-        reject('Hubo  un error')
-      }
-    });
-    return p;
+    return this.http.get(this.API_URl+this.module+"/"+id).toPromise();
   }
 
   filtrarAlumno(nombre:string):Observable<Alumno[]>{
+    this.alumnoFiltrado$= this.http.get<Alumno[]>(this.API_URl+this.module)
+  
    return this.alumnoFiltrado$.pipe(
      map(datos=>datos.filter(alumno=>alumno.name.toLowerCase()==nombre.toLowerCase()))
     );

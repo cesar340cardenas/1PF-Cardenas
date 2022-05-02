@@ -5,7 +5,7 @@ export interface API{
 }
 
 export const ApiConfig:API={
-	url:'google.com'
+	url:'https://626f2c7df75bcfbb35746673.mockapi.io/coder/'
 }
 
 export const CONFIG= new InjectionToken<API>('ApIConfig')

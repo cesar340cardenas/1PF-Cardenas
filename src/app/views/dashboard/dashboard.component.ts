@@ -7,8 +7,8 @@ import { Alumno } from '../../models/Alumno';
 import { AlumnosService } from '../../services/alumnos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
-  
    
+    
 @Component({
   templateUrl: 'dashboard.component.html',
   selector: 'table-basic-example',
@@ -70,7 +70,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   [
     "url",
     "name",
-    //"lastName",
     "motherLastName",
     "age",
     "gender",
@@ -81,8 +80,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dataSource:any;
 
  
-  
-  //alumnos2:any//Alumno[]=[];
   constructor(
     private alumnosService: AlumnosService,
     @Inject(CONFIG)configuracion:API
@@ -92,23 +89,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   
   ngOnInit(): void {
-   /*this.alumnosService.obtenerAlumnos().then((alumnos)=>{
-    this.dataSource=alumnos;
-   }).catch((error)=>{
-
-   }).finally(()=>{
-    console.log('se ejecuta al final')
-   });*/
-   this.datos$=this.alumnosService.obtenerAlumnosObservable();
-   this.datosSubscripcion= this.datos$.subscribe({
-    next:(alumnos)=>{
-       this.dataSource=alumnos;
-       console.log(alumnos)
-    },
-    error:(error)=>{
-       console.error('sicedio un error '+error)
-    }
-  });
+ 
+  this.refresh();
  }
 
    ngOnDestroy(): void {
@@ -121,31 +103,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
       return;
     }
     this.alumnosService.eliminarAlumno(id);
+    this.refresh();
     this.mensajeElimnado.show(); 
     this.table.renderRows()
   }
 
   editaAlumno(id:number){
-    console.log(id);
     let form=this.profileForm;
     let alumnoEdit:any=[];
     if(id>0){
-      //let alumno=this.alumnosService.editarAlumno(id);
       this.alumnosService.editarAlumno(id).then((alumno)=>{
       alumnoEdit=alumno;
      }).catch((error)=>{
 
      }).finally(()=>{
       console.log(alumnoEdit)
-       /*this.txtName.nativeElement.value=alumnoEdit.name;
-       this.txtPaterno.nativeElement.value=alumnoEdit.lastName;
-       this.txtMaterno.nativeElement.value=alumnoEdit.motherLastName;
-       this.txtEdad.nativeElement.value=alumnoEdit.age;
-       this.txtGen.nativeElement.value=alumnoEdit.gender;
-       this.txtCal.nativeElement.value=alumnoEdit.qualification;
-       this.txtEmail.nativeElement.value=alumnoEdit.email;
-       this.id_edit.nativeElement.value=alumnoEdit.id;
-       this.imgURL=alumnoEdit.url;*/
+      
        form.reset({
         name:alumnoEdit.name,
         lastName:alumnoEdit.lastName,
@@ -157,8 +130,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
        this.imgURL=alumnoEdit.url;
        this.id_edit.nativeElement.value=alumnoEdit.id;
-       
- 
      });
     }else{
       form.reset({
@@ -172,14 +143,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
        this.id_edit.nativeElement.value=0;
        this.imgURL="assets/img/avatars/sin_imagen.png"
-      /* this.txtName.nativeElement.value="";
-       this.txtPaterno.nativeElement.value="";
-       this.txtMaterno.nativeElement.value="";
-       this.txtEdad.nativeElement.value="";
-       this.txtGen.nativeElement.value="";
-       this.txtCal.nativeElement.value="";
-       this.txtEmail.nativeElement.value="";*/
-       
+     
     }
     this.formulario.show(); 
   }
@@ -198,16 +162,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     let alumno=this.profileForm.value;
     alumno.url=this.imgURL;
-     
      if(this.id_edit.nativeElement.value!=0){
        this.alumnosService.agregarAlumno(alumno,this.id_edit.nativeElement.value);
      }else{
       this.alumnosService.agregarAlumno(alumno,0);
      }
+      this.refresh();
       this.table.renderRows();
       this.clean();
       this.formulario.hide();
-    
 }
 
 filtrar(){
@@ -220,12 +183,27 @@ this.datos$=this.alumnosService.filtrarAlumno(this.filtro.nativeElement.value);
 
 limpiarFiltro(){
 this.filtro.nativeElement.value="";
-this.datos$=this.alumnosService.obtenerAlumnosObservable()
+this.refresh();
 }
 
 clean(){
     this.profileForm.reset();
  }
+
+
+ refresh(){
+    this.datos$=this.alumnosService.obtenerAlumnosObservable();
+   this.datosSubscripcion= this.datos$.subscribe({
+    next:(alumnos)=>{
+
+       this.dataSource=alumnos;
+       this.dataSource.url=this.dataSource.url+(new Date()).getTime()
+    },
+    error:(error)=>{
+       console.error('sicedio un error '+error)
+    }
+  });
+  }
 
  preview(files) {
     if (files.length === 0)
@@ -242,5 +220,7 @@ clean(){
       this.imgURL = reader.result; 
     }
   }
+
+  
 }
 

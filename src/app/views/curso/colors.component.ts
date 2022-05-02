@@ -7,7 +7,7 @@ import { Curso } from '../../models/Curso';
 import { CursosService } from '../../services/cursos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
-     
+      
    
 @Component({  
   templateUrl: 'colors.component.html',
@@ -56,7 +56,6 @@ export class ColorsComponent implements OnInit, OnDestroy  {
   [
  
     "name",
-    //"lastName",
     "type",
     "acciones"
     ];
@@ -70,16 +69,8 @@ export class ColorsComponent implements OnInit, OnDestroy  {
  
  
   ngOnInit(): void {
-    this.datos$=this.cursosService.obtenerCursoObservable();
-   this.datosSubscripcion= this.datos$.subscribe({
-    next:(cursos)=>{
-       this.dataSource=cursos;
-       console.log(cursos)
-    },
-    error:(error)=>{
-       console.error('sicedio un error '+error)
-    }
-  });
+     this.refresh();
+   
   }
 
   ngOnDestroy(): void {
@@ -89,6 +80,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
    eliminaCurso(id:number){
     
     this.cursosService.eliminarCurso(id);
+    this.refresh();
     this.mensajeElimnado.show(); 
     this.table.renderRows()
   }
@@ -141,6 +133,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
      }else{
       this.cursosService.agregarCurso(curso,0);
      }
+      this.refresh();
       this.table.renderRows();
       this.clean();
       this.formulario.hide();
@@ -157,7 +150,7 @@ this.datos$=this.cursosService.filtrarCurso(this.filtro.nativeElement.value);
 
 limpiarFiltro(){
 this.filtro.nativeElement.value="";
-this.datos$=this.cursosService.obtenerCursoObservable()
+ this.refresh();
 }
 
 clean(){
@@ -178,6 +171,19 @@ clean(){
     reader.onload = (_event) => { 
       this.imgURL = reader.result; 
     }
+  }
+
+  refresh(){
+     this.datos$=this.cursosService.obtenerCursoObservable();
+   this.datosSubscripcion= this.datos$.subscribe({
+    next:(cursos)=>{
+       this.dataSource=cursos;
+       console.log(cursos)
+    },
+    error:(error)=>{
+       console.error('sicedio un error '+error)
+    }
+  });
   }
 
 }

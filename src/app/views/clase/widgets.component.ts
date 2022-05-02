@@ -7,7 +7,7 @@ import { Clase } from '../../models/Clase';
 import { ClasesService } from '../../services/clases.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
-   
+     
 @Component({
   templateUrl: 'widgets.component.html',
   selector: 'table-basic-example',
@@ -53,7 +53,6 @@ export class WidgetsComponent implements OnInit, OnDestroy{
   [
     "url",
     "name",
-    //"lastName",
     "curso_id",
     "acciones"
     ];
@@ -65,16 +64,8 @@ export class WidgetsComponent implements OnInit, OnDestroy{
   }
  
    ngOnInit(): void {
-    this.datos$=this.clasesService.obtenerClaseObservable();
-   this.datosSubscripcion= this.datos$.subscribe({
-    next:(clases)=>{
-       this.dataSource=clases;
-       console.log(clases)
-    },
-    error:(error)=>{
-       console.error('sicedio un error '+error)
-    }
-  });
+    this.refresh();
+    
   }
 
   ngOnDestroy(): void {
@@ -84,6 +75,7 @@ export class WidgetsComponent implements OnInit, OnDestroy{
    eliminaClase(id:number){
     
     this.clasesService.eliminarClase(id);
+    this.refresh();
     this.mensajeElimnado.show(); 
     this.table.renderRows()
   }
@@ -136,6 +128,7 @@ export class WidgetsComponent implements OnInit, OnDestroy{
      }else{
       this.clasesService.agregarClase(clase,0);
      }
+     this.refresh();
       this.table.renderRows();
       this.clean();
       this.formulario.hide();
@@ -152,7 +145,7 @@ this.datos$=this.clasesService.filtrarClase(this.filtro.nativeElement.value);
 
 limpiarFiltro(){
 this.filtro.nativeElement.value="";
-this.datos$=this.clasesService.obtenerClaseObservable()
+this.refresh();
 }
 
 clean(){
@@ -173,6 +166,19 @@ clean(){
     reader.onload = (_event) => { 
       this.imgURL = reader.result; 
     }
+  }
+
+  refresh(){
+    this.datos$=this.clasesService.obtenerClaseObservable();
+   this.datosSubscripcion= this.datos$.subscribe({
+    next:(clases)=>{
+       this.dataSource=clases;
+       console.log(clases)
+    },
+    error:(error)=>{
+       console.error('sicedio un error '+error)
+    }
+  });
   }
  
 }
