@@ -7,6 +7,7 @@ import { Curso } from '../../models/Curso';
 import { CursosService } from '../../services/cursos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
+import { AutentificacionService } from '../../services/autentificacion.service';
       
    
 @Component({  
@@ -24,6 +25,9 @@ export class ColorsComponent implements OnInit, OnDestroy  {
   urlApi!:string;
   datos$!:Observable<any>;
   datosSubscripcion!: any;
+  editar:boolean;
+  eliminar:boolean;
+  agregar:boolean;
 
 
   /*Estilos para directiva del thead de la tabla*/
@@ -62,13 +66,25 @@ export class ColorsComponent implements OnInit, OnDestroy  {
   /*variable que tedrá las filas de la columnas*/
   dataSource:any;
   constructor( private cursosService: CursosService,
-    @Inject(CONFIG)configuracion:API) {
+    @Inject(CONFIG)configuracion:API,private auth:AutentificacionService,) {
     this.urlApi= configuracion.url;
   }
 
  
  
   ngOnInit(): void {
+     let usuarioPrmiso:any;
+    usuarioPrmiso=this.auth.obtenerUsuarioActual();
+    if(usuarioPrmiso.profile=="Admin"){
+      this.editar=true;
+      this.eliminar=true;
+      this.agregar=true;
+    }
+    if(usuarioPrmiso.profile=="User"){
+      this.editar=false;
+      this.eliminar=false;
+      this.agregar=false;
+    }
      this.refresh();
    
   }

@@ -27,18 +27,18 @@ constructor(
 }
 
 login(){
-  let usuarioGuardado:any;
+  let usuariosAlamcenados:any;
 if(this.email.nativeElement.value==''||this.password.nativeElement.value==''){
   return;
 }else{
-  usuarioGuardado=this.auth.obtenerUsuarioActual();
-  if(this.email.nativeElement.value==usuarioGuardado.email&&
-    this.password.nativeElement.value==usuarioGuardado.password){
-    this.auth.modificarSesion(true);
-    this.router.navigate(['dashboard']).then((r)=>true)
+  if(this.auth.obtenerUsuarioslogin(this.email.nativeElement.value,this.password.nativeElement.value)){
+     this.auth.modificarSesion(true);
+     this.router.navigate(['dashboard']).then((r)=>true)
   }else{
-    return
+     return alert("usuario o contraseña incorrectos")
   }
+
+ 
 }
 
 

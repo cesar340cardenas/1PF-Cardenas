@@ -5,7 +5,7 @@
      <div class="col-lg-6">
       <div class="card">
         <div class="card-body">
-            <button type="button" class="btn btn-success mr-1" data-toggle="modal" (click)="editaAlumno(0)">
+            <button type="button" class="btn btn-success mr-1" [ngClass]="agregar? '':'d-none'" data-toggle="modal" (click)="editaAlumno(0)">
             Agregar alumno
           </button>
         </div>
@@ -81,9 +81,9 @@
   <ng-container matColumnDef="acciones">
     <th mat-header-cell *matHeaderCellDef [appCabeceraTabla]="estilos"> Acciones </th>
     <td mat-cell *matCellDef="let element"> 
-      <button type="button" class="btn btn-warning mr-1" data-toggle="modal" (click)="editaAlumno(element.id)">Editar</button> 
+      <button type="button" class="btn btn-warning mr-1" [ngClass]="editar? '':'d-none'" data-toggle="modal" (click)="editaAlumno(element.id)">Editar</button> 
 
-      <button (click)="eliminaAlumno(element.id,element.qualification)" class="btn btn-danger">Eliminar</button>
+      <button (click)="eliminaAlumno(element.id,element.qualification)" class="btn btn-danger" [ngClass]="eliminar? '':'d-none'">Eliminar</button>
     </td>
   </ng-container>
 

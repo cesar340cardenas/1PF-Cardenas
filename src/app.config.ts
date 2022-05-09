@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 export interface API{
-	url:string
+	url?:string
 }
 
 export const ApiConfig:API={

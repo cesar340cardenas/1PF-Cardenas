@@ -7,7 +7,8 @@ import { Alumno } from '../../models/Alumno';
 import { AlumnosService } from '../../services/alumnos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
-   
+import { AutentificacionService } from '../../services/autentificacion.service';
+    
     
 @Component({
   templateUrl: 'dashboard.component.html',
@@ -15,7 +16,7 @@ import { Observable } from 'rxjs';
   /*Estilo para angular material para que cubra el 100% del ancho del div*/
   styleUrls: ['dashboard.component.css'],
   
-
+ 
 }) 
 
 
@@ -27,6 +28,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   urlApi!:string;
   datos$!:Observable<any>;
   datosSubscripcion!: any;
+  editar:boolean;
+  eliminar:boolean;
+  agregar:boolean;
 
 
   /*Estilos para directiva del thead de la tabla*/
@@ -82,14 +86,27 @@ export class DashboardComponent implements OnInit, OnDestroy {
  
   constructor(
     private alumnosService: AlumnosService,
-    @Inject(CONFIG)configuracion:API
+    @Inject(CONFIG)configuracion:API,
+     private auth:AutentificacionService,
     ){
     this.urlApi= configuracion.url;
   }
 
   
   ngOnInit(): void {
- 
+    let usuarioPrmiso:any;
+    usuarioPrmiso=this.auth.obtenerUsuarioActual();
+    if(usuarioPrmiso.profile=="Admin"){
+      this.editar=true;
+      this.eliminar=true;
+      this.agregar=true;
+    }
+    if(usuarioPrmiso.profile=="User"){
+      this.editar=false;
+      this.eliminar=false;
+      this.agregar=false;
+    }
+
   this.refresh();
  }
 
