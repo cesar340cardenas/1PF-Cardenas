@@ -2,6 +2,7 @@ import { Injectable,Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Curso } from '../models/Curso';
 import { Observable, Subject, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { API,CONFIG } from 'src/app.config';
   
@@ -39,7 +40,7 @@ private cursoFiltrado$: Observable<Curso[]>;
 
 
    obtenerCursoObservable(): Observable<any>{
-    return this.http.get<Curso[]>(this.API_URl+this.module)
+    return this.http.get<Curso[]>(this.API_URl+this.module).pipe(delay(2000))
    }
 
   agregarCurso(curso:Curso,id:number){

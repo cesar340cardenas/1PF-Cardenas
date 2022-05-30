@@ -1,6 +1,8 @@
  <!--TABLA Y CARGA DE ALUMNOS-->
+  <h1 *ngIf="(cargando$ | async)">Cargando, por favor espere...</h1>
 <div class="animated fadeIn">
   <div class="row">
+
  
      <div class="col-lg-6">
       <div class="card">

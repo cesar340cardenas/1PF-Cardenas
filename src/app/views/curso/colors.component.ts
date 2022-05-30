@@ -8,6 +8,10 @@ import { CursosService } from '../../services/cursos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
 import { AutentificacionService } from '../../services/autentificacion.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app.state';
+import { cargaCursos, cursosCargados } from '../../state/actions/curso.action';
+import { selectorCargandoCursos,selectorListaCursos } from '../../state/selectors/curso.selector';
       
    
 @Component({  
@@ -64,9 +68,12 @@ export class ColorsComponent implements OnInit, OnDestroy  {
     "acciones"
     ];
   /*variable que tedrá las filas de la columnas*/
-  dataSource:any;
+  //dataSource:any;
+  cargando$!:Observable<boolean>;
+  cursos$!:Observable<Curso[]>;
   constructor( private cursosService: CursosService,
-    @Inject(CONFIG)configuracion:API,private auth:AutentificacionService,) {
+    @Inject(CONFIG)configuracion:API,private auth:AutentificacionService,
+    private store:Store<AppState>) {
     this.urlApi= configuracion.url;
   }
 
@@ -188,18 +195,22 @@ clean(){
       this.imgURL = reader.result; 
     }
   }
-
+ 
   refresh(){
+     this.store.dispatch(cargaCursos());
      this.datos$=this.cursosService.obtenerCursoObservable();
    this.datosSubscripcion= this.datos$.subscribe({
     next:(cursos)=>{
-       this.dataSource=cursos;
+       //this.dataSource=cursos;
        console.log(cursos)
+       this.store.dispatch(cursosCargados({cursos:cursos}));
     },
     error:(error)=>{
        console.error('sicedio un error '+error)
     }
   });
+  this.cargando$=this.store.select(selectorCargandoCursos);
+  this.cursos$=this.store.select(selectorListaCursos)
   }
 
 }

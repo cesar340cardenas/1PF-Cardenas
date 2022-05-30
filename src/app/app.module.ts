@@ -24,6 +24,7 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterComponent } from './views/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 const APP_CONTAINERS = [
   DefaultLayoutComponent
 ];
@@ -43,6 +44,12 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { ROOT_REDUCERS } from './state/app.state';
+import { EffectsModule } from '@ngrx/effects';
+import { CursosEffects } from './state/effects/cursos.effects';
 
 //import { CabeceraTablaDirective } from './directivas/cabecera-tabla.directive';
 
@@ -64,7 +71,10 @@ import { ChartsModule } from 'ng2-charts';
     IconModule,
     IconSetModule.forRoot(),
     ReactiveFormsModule,
-  ],
+    StoreModule.forRoot(ROOT_REDUCERS),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production,name:"Prueba ngrx" }),
+    //EffectsModule.forRoot([CursosEffects]),
+     ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,

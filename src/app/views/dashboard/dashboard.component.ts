@@ -8,7 +8,8 @@ import { AlumnosService } from '../../services/alumnos.service';
 import { API,CONFIG } from 'src/app.config';
 import { Observable } from 'rxjs';
 import { AutentificacionService } from '../../services/autentificacion.service';
-    
+import { AppState } from '../../state/app.state';
+//import { Store } from '@ngrx/store';
     
 @Component({
   templateUrl: 'dashboard.component.html',
@@ -88,12 +89,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     private alumnosService: AlumnosService,
     @Inject(CONFIG)configuracion:API,
      private auth:AutentificacionService,
+     //private store:Store<AppState>
     ){
     this.urlApi= configuracion.url;
   }
 
   
   ngOnInit(): void {
+
     let usuarioPrmiso:any;
     usuarioPrmiso=this.auth.obtenerUsuarioActual();
     if(usuarioPrmiso.profile=="Admin"){
@@ -209,12 +212,14 @@ clean(){
 
 
  refresh(){
+   // this.store.dispatch(cargaCursos());
     this.datos$=this.alumnosService.obtenerAlumnosObservable();
    this.datosSubscripcion= this.datos$.subscribe({
     next:(alumnos)=>{
 
        this.dataSource=alumnos;
        this.dataSource.url=this.dataSource.url+(new Date()).getTime()
+         //this.store.dispatch(cursosCargadosurs({cursos:cursos}));
     },
     error:(error)=>{
        console.error('sicedio un error '+error)
