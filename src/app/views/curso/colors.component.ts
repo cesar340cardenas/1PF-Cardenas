@@ -109,7 +109,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
   }
 
   editaCurso(id:number){
-    console.log(id);
+    //console.log(id);
     let form=this.profileForm;
     let cursoEdit:any=[];
     if(id>0){
@@ -119,7 +119,7 @@ export class ColorsComponent implements OnInit, OnDestroy  {
      }).catch((error)=>{
 
      }).finally(()=>{
-      console.log(cursoEdit)
+      //console.log(cursoEdit)
        form.reset({
         name:cursoEdit.name,
         type:cursoEdit.type,
@@ -202,7 +202,7 @@ clean(){
    this.datosSubscripcion= this.datos$.subscribe({
     next:(cursos)=>{
        //this.dataSource=cursos;
-       console.log(cursos)
+       //console.log(cursos)
        this.store.dispatch(cursosCargados({cursos:cursos}));
     },
     error:(error)=>{

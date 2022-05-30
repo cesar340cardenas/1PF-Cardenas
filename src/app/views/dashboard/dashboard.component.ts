@@ -137,7 +137,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
      }).catch((error)=>{
 
      }).finally(()=>{
-      console.log(alumnoEdit)
+   //   console.log(alumnoEdit)
       
        form.reset({
         name:alumnoEdit.name,

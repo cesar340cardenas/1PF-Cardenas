@@ -97,7 +97,7 @@ export class WidgetsComponent implements OnInit, OnDestroy{
   }
 
   editaClase(id:number){
-    console.log(id);
+    //console.log(id);
     let form=this.profileForm;
     let claseEdit:any=[];
     if(id>0){
@@ -107,7 +107,7 @@ export class WidgetsComponent implements OnInit, OnDestroy{
      }).catch((error)=>{
 
      }).finally(()=>{
-      console.log(claseEdit)
+      //console.log(claseEdit)
        form.reset({
         name:claseEdit.name,
         curso_id:claseEdit.curso_id,
@@ -189,7 +189,7 @@ clean(){
    this.datosSubscripcion= this.datos$.subscribe({
     next:(clases)=>{
        this.dataSource=clases;
-       console.log(clases)
+       //console.log(clases)
     },
     error:(error)=>{
        console.error('sicedio un error '+error)
